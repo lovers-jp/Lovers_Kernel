@@ -1,0 +1,41 @@
+name: Lovers Kernel Download Stats
+
+on:
+  workflow_dispatch:
+  schedule:
+    # 00:17 UTC = 09:17 JST daily (may be delayed by GitHub Actions)
+    - cron: '17 0 * * *'
+
+permissions:
+  contents: write
+
+concurrency:
+  group: lovers-kernel-release-stats
+  cancel-in-progress: false
+
+jobs:
+  collect:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout main
+        uses: actions/checkout@v4
+        with:
+          persist-credentials: true
+
+      - name: Collect release download counts
+        env:
+          GH_TOKEN: ${{ github.token }}
+          GITHUB_REPOSITORY: ${{ github.repository }}
+        run: python3 scripts/collect_release_downloads.py
+
+      - name: Commit snapshot and statistics
+        run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git add stats/
+          if ! git diff --cached --quiet; then
+            git commit -m "stats: record release downloads"
+            git push
+          else
+            echo "No statistics changed."
+          fi
