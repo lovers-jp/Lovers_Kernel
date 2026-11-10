@@ -1,4 +1,4 @@
-name: Lovers Kernel Download Stats
+name: Lovers Kernel BakaSU Download Stats
 
 on:
   workflow_dispatch:
