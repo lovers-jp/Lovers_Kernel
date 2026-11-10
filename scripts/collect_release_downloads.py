@@ -14,7 +14,7 @@ from urllib.error import HTTPError, URLError
 from urllib.request import Request, urlopen
 from zoneinfo import ZoneInfo
 
-REPOSITORY = os.environ.get("GITHUB_REPOSITORY", "lovers-jp/Lovers_Kernel")
+REPOSITORY = os.environ.get("GITHUB_REPOSITORY", "lovers-jp/Lovers_Kernel_BakaSU")
 TOKEN = os.environ.get("GH_TOKEN", os.environ.get("GITHUB_TOKEN", ""))
 DATE = datetime.now(ZoneInfo("Asia/Tokyo")).strftime("%Y-%m-%d")
 ROOT = Path("stats")
